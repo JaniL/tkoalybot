@@ -9,3 +9,7 @@ Telegram bot for TKO-äly related things.
 3. node index.js
 
 Make a pull request on bug fixes and new features!
+
+## Current features
+
+* /events - lists three upcoming events
