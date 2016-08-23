@@ -7,7 +7,7 @@ var ICS_URL = 'http://ics.tko-aly.fi/'
 var bot = new TelegramBot(process.env.API_TOKEN, {polling: true})
 
 function makeHumanReadable(e) {
-  return new Date(e.start).toDateString() + ": [" + e.summary + "](" + e.url + ")"
+  return new Date(e.start).toDateString() + ": [" + e.summary.trim() + "](" + e.url + ")"
 }
 
 function retrieveEvents(cb) {
