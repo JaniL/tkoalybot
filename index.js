@@ -1,4 +1,4 @@
-var TelegramBot = require('node-telegram-bot-api');
+var TelegramBot = require('node-telegram-bot-api')
 var ical = require('ical')
 var request = require('request')
 
@@ -31,10 +31,10 @@ bot.onText(/\/jalluindeksi$/, function(msg, match) {
   request(jallu_URL, function(err, res) {
     bot.sendMessage(fromId, 'Päivän hinta on ' + res.body + ' euroa!')
   })
-});
+})
 
 bot.onText(/\/events$/, function(msg, match) {
-  var fromId = msg.from.id;
+  var fromId = msg.from.id
   retrieveEvents(function(data) {
     data = data.slice(0,3).map(makeHumanReadable)
 
@@ -49,4 +49,4 @@ bot.onText(/\/events$/, function(msg, match) {
       parse_mode: 'Markdown'
     })
   })
-});
+})
