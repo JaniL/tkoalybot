@@ -3,6 +3,7 @@ var ical = require('ical')
 var request = require('request')
 
 var ICS_URL = 'http://ics.tko-aly.fi/'
+var jallu_URL = 'http://jalluindeksi.xyz/price'
 
 var bot = new TelegramBot(process.env.API_TOKEN, {polling: true})
 
@@ -24,7 +25,15 @@ function retrieveEvents(cb) {
   })
 }
 
-bot.onText(/\/events$/, function (msg, match) {
+bot.onText(/\/jalluindeksi$/, function(msg, match) {
+  var fromId = msg.from.id
+
+  request(jallu_URL, function(err, res) {
+    bot.sendMessage(fromId, 'Päivän hinta on ' + res.body + ' euroa!')
+  })
+});
+
+bot.onText(/\/events$/, function(msg, match) {
   var fromId = msg.from.id;
   retrieveEvents(function(data) {
     data = data.slice(0,3).map(makeHumanReadable)
