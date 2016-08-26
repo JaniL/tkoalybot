@@ -13,3 +13,4 @@ Make a pull request on bug fixes and new features!
 ## Current features
 
 * /events - lists three upcoming events
+* /jalluindeksi - fetch up to date jalluindeksi
