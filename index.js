@@ -57,18 +57,16 @@ bot.onText(/\/jalluindeksi$/, function(msg, match) {
 
 bot.onText(/\/events$/, function(msg, match) {
   var fromId = msg.from.id
-  retrieveEvents(function(data) {
-    data = data.slice(0,3).map(makeHumanReadable)
+  data = events.slice(0,3).map(makeHumanReadable)
 
-    var res = '*Tulevat tapahtumat:* \n'
-    for (var i = 0; i < data.length; i++) {
-      var event = data[i]
-      res += event + '\n'
-    }
+  var res = '*Tulevat tapahtumat:* \n'
+  for (var i = 0; i < data.length; i++) {
+    var event = data[i]
+    res += event + '\n'
+  }
 
-    bot.sendMessage(fromId, res.trim(), {
-      disable_web_page_preview: true,
-      parse_mode: 'Markdown'
-    })
+  bot.sendMessage(fromId, res.trim(), {
+    disable_web_page_preview: true,
+    parse_mode: 'Markdown'
   })
 })
