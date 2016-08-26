@@ -1,11 +1,33 @@
 var TelegramBot = require('node-telegram-bot-api')
 var ical = require('ical')
 var request = require('request')
+var fs = require('fs')
 
 var ICS_URL = 'http://ics.tko-aly.fi/'
 var jallu_URL = 'http://jalluindeksi.xyz/price'
+var EVENTS_FILE = 'events.json'
 
 var bot = new TelegramBot(process.env.API_TOKEN, {polling: true})
+
+var events = []
+fs.readFile(EVENTS_FILE, (err, data) => {
+  if (!err) {
+    events = JSON.parse(data)
+  }
+  setTimeout(pollEvents,1000)
+  setInterval(pollEvents, 15 * 60 * 1000)
+})
+
+function saveEvents(data, cb) {
+  fs.writeFile(EVENTS_FILE, JSON.stringify(data), cb)
+}
+
+function pollEvents() {
+  retrieveEvents(function(data) {
+    saveEvents(data)
+    events = data
+  })
+}
 
 function makeHumanReadable(e) {
   return new Date(e.start).toDateString() + ": [" + e.summary.trim() + "](" + e.url + ")"
