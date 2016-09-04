@@ -7,6 +7,11 @@ var ICS_URL = 'http://ics.tko-aly.fi/'
 var JALLU_URL = 'http://jalluindeksi.xyz/price'
 var EVENTS_FILE = 'events.json'
 
+if (!process.env.API_TOKEN) {
+  console.error('No api token found.')
+  process.exit(1)
+}
+
 var bot = new TelegramBot(process.env.API_TOKEN, {polling: true})
 
 var events = []
