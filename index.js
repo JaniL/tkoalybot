@@ -2,10 +2,13 @@ var TelegramBot = require('node-telegram-bot-api')
 var ical = require('ical')
 var request = require('request')
 var fs = require('fs')
+var moment = require('moment')
+var cron = require('node-cron')
 
 var ICS_URL = 'http://ics.tko-aly.fi/'
 var JALLU_URL = 'http://jalluindeksi.xyz/price'
 var EVENTS_FILE = 'events.json'
+var GROUPS_FILE = 'groups.json'
 
 if (!process.env.API_TOKEN) {
   console.error('No api token found.')
@@ -15,6 +18,7 @@ if (!process.env.API_TOKEN) {
 var bot = new TelegramBot(process.env.API_TOKEN, {polling: true})
 
 var events = []
+var groups = []
 fs.readFile(EVENTS_FILE, (err, data) => {
   if (!err) {
     events = JSON.parse(data)
@@ -52,26 +56,29 @@ function retrieveEvents (cb) {
   })
 }
 
-bot.onText(/\/jalluindeksi$/, function (msg, match) {
-  var fromId = msg.from.id
-
-  request(JALLU_URL, function (err, res) {
-    bot.sendMessage(fromId, 'Päivän hinta on ' + res.body + ' euroa!')
-  })
-})
-
-bot.onText(/\/events$/, function (msg, match) {
-  var fromId = msg.from.id
-  var data = events.slice(0, 3).map(makeHumanReadable)
-
-  var res = '*Tulevat tapahtumat:* \n'
-  for (var i = 0; i < data.length; i++) {
-    var event = data[i]
-    res += event + '\n'
+function todaysEvents () {
+  var today = moment()
+  var data = events.filter(function (e) { return moment(e.start).isSame(today, 'day') })
+                   .map(makeHumanReadable)
+  if (data) {
+    var res = '*Tänään:* \n'
+    for (var i = 0; i < data.length; i++) {
+      var event = data[i]
+      res += event + '\n'
+    }
+    for (var j = 0; j < groups.length; j++) {
+      bot.sendMessage(groups[j], res.trim(), {
+        disable_web_page_preview: true,
+        parse_mode: 'Markdown'
+      })
+    }
   }
+}
 
-  bot.sendMessage(fromId, res.trim(), {
-    disable_web_page_preview: true,
-    parse_mode: 'Markdown'
-  })
+cron.schedule('0 0 7 * * *', todaysEvents)
+
+bot.on('message', function (msg) {
+  if (msg.chat.type !== 'private' && groups.indexOf(msg.chat.id) === -1) {
+    groups.push(msg.chat.id)
+  }
 })

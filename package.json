@@ -10,6 +10,8 @@
   "license": "MIT",
   "dependencies": {
     "ical": "^0.5.0",
+    "moment": "^2.14.1",
+    "node-cron": "^1.1.2",
     "node-telegram-bot-api": "^0.23.3",
     "request": "^2.74.0"
   },
