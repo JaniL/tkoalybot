@@ -75,7 +75,34 @@ function todaysEvents () {
   }
 }
 
+function todaysFood(id) {
+  var now = new Date()
+  var d = now.getDate() < 10 ? '0' + now.getDate() : '' + now.getDate()
+  d += '.'
+  d += (now.getMonth() + 1) < 10 ? '0' + (now.getMonth() + 1) : '' + (now.getMonth() + 1)
+
+  request.get('http://messi.hyyravintolat.fi/publicapi/restaurant/10', (err, res, body) => {
+    var res = '';
+    if (err) return
+
+    for (var o of JSON.parse(body).data) {
+      if (o.date.split(' ')[1] === d) {
+        for (var i of o.data) {
+          res += i.price.name + ': ' + i.name + '\n';
+        }
+      }
+    }
+
+      bot.sendMessage(id, res.trim(), {
+        parse_mode: 'Markdown'
+      })
+  })
+}
+
+todaysFood()
+
 cron.schedule('0 0 7 * * *', todaysEvents)
+cron.schedule('0 1 0 * * *', todaysFood)
 
 bot.on('message', function (msg) {
   if (msg.chat.type !== 'private' && groups.indexOf(msg.chat.id) === -1) {
