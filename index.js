@@ -7,7 +7,7 @@ var tkoalyevents = require('tkoalyevents')
 var R = require('ramda')
 
 var EVENTS_FILE = 'events.json'
-var GROUPS_FILE = 'events.json'
+var GROUPS_FILE = 'groups.json'
 moment.locale('fi')
 
 if (!process.env.API_TOKEN) {
@@ -19,14 +19,14 @@ var bot = new TelegramBot(process.env.API_TOKEN, {polling: true})
 
 var events = []
 var groups = []
-fs.readFile(EVENTS_FILE, (err, data) => {
+fs.readFile(EVENTS_FILE, (err, eventsData) => {
   if (!err) {
-    events = JSON.parse(data)
+    events = JSON.parse(eventsData)
     console.log('read', events.length, 'events')
   }
-  fs.readFile(GROUPS_FILE, (err, data) => {
+  fs.readFile(GROUPS_FILE, (err, groupsData) => {
     if (!err) {
-      groups = JSON.parse(data)
+      groups = JSON.parse(groupsData)
       console.log('read', groups.length, 'groups')
     }
     setTimeout(pollEvents, 1000)
