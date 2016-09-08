@@ -12,6 +12,7 @@
     "moment": "^2.14.1",
     "node-cron": "^1.1.2",
     "node-telegram-bot-api": "^0.23.3",
+    "ramda": "^0.22.1",
     "tkoalyevents": "^1.1.0"
   },
   "devDependencies": {
