@@ -115,6 +115,7 @@ cron.schedule('0 0 7 * * *', todaysEvents)
 
 bot.on('message', function (msg) {
   if (msg.chat.type !== 'private' && groups.indexOf(msg.chat.id) === -1) {
+    console.log('Found a new group:', msg.chat.id, msg.chat.title);
     groups.push(msg.chat.id)
     fs.writeFile(GROUPS_FILE, JSON.stringify(groups))
   }
