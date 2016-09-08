@@ -27,6 +27,7 @@ fs.readFile(EVENTS_FILE, (err, data) => {
   fs.readFile(GROUPS_FILE, (err, data) => {
     if (!err) {
       groups = JSON.parse(data)
+      console.log('read', groups.length, 'groups')
     }
     setTimeout(pollEvents, 1000)
     setInterval(pollEvents, 15 * 60 * 1000)
