@@ -72,7 +72,7 @@ function listEvents (events, dateFormat) {
 
 function todaysEvents () {
   var today = moment()
-  var data = events.filter(function (e) { return moment(e.starts).isSame(today, 'day') })
+  var data = events.filter(e => moment(e.starts).isSame(today, 'day'))
   if (data) {
     data = listEvents(data, 'HH:mm')
     var res = '*Tänään:* \n' + data
