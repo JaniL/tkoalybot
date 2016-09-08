@@ -7,6 +7,7 @@ var tkoalyevents = require('tkoalyevents')
 var R = require('ramda')
 
 var EVENTS_FILE = 'events.json'
+var GROUPS_FILE = 'events.json'
 moment.locale('fi')
 
 if (!process.env.API_TOKEN) {
@@ -23,8 +24,13 @@ fs.readFile(EVENTS_FILE, (err, data) => {
     events = JSON.parse(data)
     console.log('read', events.length, 'events')
   }
-  setTimeout(pollEvents, 1000)
-  setInterval(pollEvents, 15 * 60 * 1000)
+  fs.readFile(GROUPS_FILE, (err, data) => {
+    if (!err) {
+      groups = JSON.parse(data)
+    }
+    setTimeout(pollEvents, 1000)
+    setInterval(pollEvents, 15 * 60 * 1000)
+  })
 })
 
 function saveEvents (data, cb) {
@@ -110,5 +116,6 @@ cron.schedule('0 0 7 * * *', todaysEvents)
 bot.on('message', function (msg) {
   if (msg.chat.type !== 'private' && groups.indexOf(msg.chat.id) === -1) {
     groups.push(msg.chat.id)
+    fs.writeFile(GROUPS_FILE, JSON.stringify(groups))
   }
 })
