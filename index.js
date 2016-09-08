@@ -1,14 +1,10 @@
 var TelegramBot = require('node-telegram-bot-api')
-var ical = require('ical')
-var request = require('request')
 var fs = require('fs')
 var moment = require('moment')
 var cron = require('node-cron')
+var tkoalyevents = require('tkoalyevents')
 
-var ICS_URL = 'http://ics.tko-aly.fi/'
-var JALLU_URL = 'http://jalluindeksi.xyz/price'
 var EVENTS_FILE = 'events.json'
-var GROUPS_FILE = 'groups.json'
 
 if (!process.env.API_TOKEN) {
   console.error('No api token found.')
@@ -38,27 +34,21 @@ function pollEvents () {
   })
 }
 
+function getEventURL (id) {
+  return 'http://tko-aly.fi/event/' + id
+}
+
 function makeHumanReadable (e) {
-  return new Date(e.start).toDateString() + ': [' + e.summary.trim() + '](' + e.url + ')'
+  return e.starts.toDateString() + ': [' + e.name.trim() + '](' + getEventURL(e.id) + ')'
 }
 
 function retrieveEvents (cb) {
-  request(ICS_URL, function (err, res) {
-    var data = ical.parseICS(res.body)
-
-    data = Object.keys(data).map(function (k) {
-      return data[k]
-    }).filter(function (e) {
-      return e.type === 'VEVENT'
-    })
-
-    cb(data)
-  })
+  tkoalyevents(cb)
 }
 
 function todaysEvents () {
   var today = moment()
-  var data = events.filter(function (e) { return moment(e.start).isSame(today, 'day') })
+  var data = events.filter(function (e) { return moment(e.starts).isSame(today, 'day') })
                    .map(makeHumanReadable)
   if (data) {
     var res = '*Tänään:* \n'
