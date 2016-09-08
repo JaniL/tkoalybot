@@ -1,3 +1,4 @@
+require('dotenv').config()
 var TelegramBot = require('node-telegram-bot-api')
 var fs = require('fs')
 var moment = require('moment')
