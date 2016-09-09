@@ -173,7 +173,7 @@ function todaysFood(id) {
 }
 
 cron.schedule('0 0 7 * * *', todaysEvents)
-cron.schedule('0 37 8 * * *', todaysFood)
+cron.schedule('0 0 10 * * *', todaysFood)
 
 bot.on('message', function (msg) {
   if (msg.chat.type !== 'private' && groups.indexOf(msg.chat.id) === -1) {
