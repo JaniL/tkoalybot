@@ -14,6 +14,7 @@
     "node-cron": "^1.1.2",
     "node-telegram-bot-api": "^0.23.3",
     "ramda": "^0.22.1",
+    "request": "^2.74.0",
     "tkoalyevents": "^1.1.0"
   },
   "devDependencies": {
