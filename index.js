@@ -5,6 +5,7 @@ var moment = require('moment')
 var cron = require('node-cron')
 var tkoalyevents = require('tkoalyevents')
 var R = require('ramda')
+var request = require('request')
 
 var EVENTS_FILE = 'events.json'
 var GROUPS_FILE = 'groups.json'
@@ -115,7 +116,7 @@ function newEvents (events) {
   }
 }
 
-function todaysFood(id) {
+function todaysFood (id) {
   var now = new Date()
   var d = now.getDate() < 10 ? '0' + now.getDate() : '' + now.getDate()
   d += '.'
@@ -123,23 +124,23 @@ function todaysFood(id) {
 
   this.createFoodList = (str, array, cb) => {
     var res = str
-    
+
     var edullisesti = '*Edullisesti:* \n'
     var makeasti = '*Makeasti:*\n'
     var maukkaasti = '*Maukkaasti:*\n'
     for (var o of array) {
       if (o.date.split(' ')[1] === d) {
         for (var i of o.data) {
-          switch(i.price.name) {
+          switch (i.price.name) {
             case 'Edullisesti':
               edullisesti += '  - ' + i.name + '\n'
-            break
+              break
             case 'Makeasti':
               makeasti += '  - ' + i.name + '\n'
-            break
+              break
             case 'Maukkaasti':
               maukkaasti += '  - ' + i.name + '\n'
-            break
+              break
           }
         }
         cb(res + edullisesti + maukkaasti + makeasti)
@@ -173,7 +174,12 @@ function todaysFood(id) {
 }
 
 cron.schedule('0 0 7 * * *', todaysEvents)
-cron.schedule('0 0 10 * * *', todaysFood)
+
+cron.schedule('0 0 10 * * 1', todaysFood)
+cron.schedule('0 0 10 * * 2', todaysFood)
+cron.schedule('0 0 10 * * 3', todaysFood)
+cron.schedule('0 0 10 * * 4', todaysFood)
+cron.schedule('0 0 10 * * 5', todaysFood)
 
 bot.on('message', function (msg) {
   if (msg.chat.type !== 'private' && groups.indexOf(msg.chat.id) === -1) {
