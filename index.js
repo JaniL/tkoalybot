@@ -81,7 +81,7 @@ function listEvents (events, dateFormat) {
 function todaysEvents () {
   var today = moment()
   var data = events.filter(e => moment(e.starts).isSame(today, 'day'))
-  if (data) {
+  if (data && data.length > 0) {
     data = listEvents(data, 'HH:mm')
     var res = '*Tänään:* \n' + data
     for (var j = 0; j < groups.length; j++) {
@@ -116,7 +116,7 @@ cron.schedule('0 0 7 * * *', todaysEvents)
 
 bot.on('message', function (msg) {
   if (msg.chat.type !== 'private' && groups.indexOf(msg.chat.id) === -1) {
-    console.log('Found a new group:', msg.chat.id, msg.chat.title);
+    console.log('Found a new group:', msg.chat.id, msg.chat.title)
     groups.push(msg.chat.id)
     fs.writeFile(GROUPS_FILE, JSON.stringify(groups))
   }
