@@ -176,13 +176,14 @@ function weather() {
         parse_mode: 'Markdown'
       })
     }
-  });
+  })
 }
 
 cron.schedule('0 0 7 * * *', () => {
   todaysEvents()
   weather()
 })
+
 cron.schedule('0 0 10 * * 1-5', todaysFood)
 
 bot.on('message', function (msg) {
