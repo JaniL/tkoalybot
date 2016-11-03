@@ -6,6 +6,7 @@ var cron = require('node-cron')
 var tkoalyevents = require('tkoalyevents')
 var R = require('ramda')
 var request = require('request')
+const translations = require('./translations')
 
 var EVENTS_FILE = 'events.json'
 var GROUPS_FILE = 'groups.json'
@@ -167,9 +168,8 @@ function weather() {
     if (err) return
     var obj = JSON.parse(body).query.results.channel
     
-    var resStr = `*Weather:* \n\n*${obj.location.city}, ${obj.location.country}*\n\n`
-    resStr += `${obj.item.condition.date}\n\n*Temperature:* ${obj.item.condition.temp}°C\n*Weather:* ${obj.item.condition.text}\n`
-    resStr += `*Sunrise/Sunset:* ${obj.astronomy.sunrise}/${obj.astronomy.sunset}`
+    var resStr = `*Lämpötila on Helsingissä ${obj.item.condition.temp}°C,  ${translations.conditions[obj.item.condition.code]} ${translations.emoji[obj.item.condition.code]} . `
+    resStr += `Aurinko nousee ${moment(obj.astronomy.sunrise, ["h:mm A"]).format('HH:mm')} ja laskee ${moment(obj.astronomy.sunset, ["h:mm A"]).format('HH:mm')}.*`
 
     for (var g of groups) {
       bot.sendMessage(g, resStr.trim(), {
