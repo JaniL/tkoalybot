@@ -36,9 +36,9 @@ module.exports.conditions = {
   34: 'kirkasta',
   35: 'sadetta ja rakeita',
   36: 'poutaa',
-  37: 'ykkosmyrskyjä',
-  38: 'ykkosmyrskyjä',
-  39: 'ykkosmyrskyjä',
+  37: 'ukkosmyrskyjä',
+  38: 'ukkosmyrskyjä',
+  39: 'ukkosmyrskyjä',
   40: 'sadekuuroja',
   41: 'raskasta lumisadetta',
   42: 'räntää',
@@ -97,5 +97,5 @@ module.exports.emoji = {
   44: '🌥',
   45: '⛈',
   46: '❄',
-  47: '🌩💧'  
+  47: '🌩💧'
 }
