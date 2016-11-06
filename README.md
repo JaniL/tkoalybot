@@ -14,3 +14,5 @@ Make a pull request on bug fixes and new features!
 
 * /events - lists three upcoming events
 * /jalluindeksi - fetch up to date jalluindeksi
+* /cams - fetch newest webcam images from
+  http://haba.tko-aly.fi/kuvat/webcam1.jpg and http://haba.tko-aly.fi/kuvat/webcam2.jpg
