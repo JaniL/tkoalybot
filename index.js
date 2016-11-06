@@ -9,7 +9,6 @@ var request = require('request')
 
 var EVENTS_FILE = 'events.json'
 var GROUPS_FILE = 'groups.json'
-
 var FOODLIST_URL = 'http://jallu.ml/unicafe/food'
 
 moment.locale('fi')
@@ -161,6 +160,18 @@ function todaysFood (id) {
   })
 }
 
+function getGurulaImages(msg) {
+  var imgOne = request.get(getGurulaCamUrl(1)),
+      imgTwo = request.get(getGurulaCamUrl(2))
+
+  bot.sendPhoto(msg.chat.id, imgOne)
+  bot.sendPhoto(msg.chat.id, imgTwo)
+}
+
+function getGurulaCamUrl(id) {
+  return 'https://haba.tko-aly.fi/kuvat/webcam' + id + '.jpg'
+}
+
 cron.schedule('0 0 7 * * *', todaysEvents)
 
 cron.schedule('0 0 10 * * 1', todaysFood)
@@ -175,4 +186,8 @@ bot.on('message', function (msg) {
     groups.push(msg.chat.id)
     fs.writeFile(GROUPS_FILE, JSON.stringify(groups))
   }
+})
+
+bot.onText(/\/cams/, function(msg) {
+  getGurulaImages(msg)
 })
