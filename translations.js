@@ -38,7 +38,7 @@ module.exports.conditions = {
   36: 'poutaa',
   37: 'ukkosmyrskyjä',
   38: 'ukkosmyrskyjä',
-  39: 'ukkosmyrskyjä',
+  39: 'ajoittaisia sadekuuroja',
   40: 'sadekuuroja',
   41: 'raskasta lumisadetta',
   42: 'räntää',
@@ -46,7 +46,8 @@ module.exports.conditions = {
   44: 'puolipilvistä',
   45: 'ukkossateita',
   46: 'lumisadetta',
-  47: 'ukkossateita'
+  47: 'ukkossateita',
+  3200: 'tuntematon sää'
 }
 
 module.exports.emoji = {
@@ -97,5 +98,6 @@ module.exports.emoji = {
   44: '🌥',
   45: '⛈',
   46: '❄',
-  47: '🌩💧'
+  47: '🌩💧',
+  3200: ''
 }
