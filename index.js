@@ -120,6 +120,11 @@ function newEvents (events) {
 
 function todaysFood (id) {
   this.createFoodList = (str, array, cb) => {
+    if (array.length === 0) {
+      cb(str + 'Ei tarjoilua tänään')
+      return
+    }
+
     var res = str
     var edullisesti = '*Edullisesti:* \n'
     var makeasti = '*Makeasti:*\n'
